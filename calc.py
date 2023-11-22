@@ -1,6 +1,12 @@
+import math
+
 def calculate_field_weakening_flux(initial, current_speed, field_weakening_start_speed, variable):
-    field_weakening_flux = initial + (current_speed - field_weakening_start_speed) * (variable / 1000)
+    if current_speed <= field_weakening_start_speed:
+        field_weakening_flux = 0.0
+    else:
+        field_weakening_flux = initial + (current_speed - field_weakening_start_speed) * (variable / 1000)
     return field_weakening_flux
+
 
 def calculate_charge_percentage(voltage, num_cells):
     min_voltage = 3.0
@@ -8,10 +14,35 @@ def calculate_charge_percentage(voltage, num_cells):
     charge_percentage = ((voltage - min_voltage * num_cells) / ((max_voltage - min_voltage) * num_cells)) * 100
     return charge_percentage
 
+def calculate_max_battery_voltage():
+    Radc = float(input("Enter the Radc value: "))
+
+    if not math.isnan(Radc):
+        max_voltage = 3.3
+        R1 = 10000
+        Vmax = (max_voltage * (Radc + R1)) / R1
+        print(f"Max Battery Voltage (Vmax): {Vmax:.2f}V")
+    else:
+        print("Please enter a valid Radc value.")
+
+def calculate_shunt_resistor(current_max, desired_current):
+    try:
+        R1 = float(input("Enter the initial shunt resistor value (R1) in ohms: "))
+        if R1 <= 0:
+            raise ValueError("Shunt resistor value must be greater than zero.")
+        
+        shunt_resistor = R1 / (current_max * desired_current)
+        print(f"The shunt resistor value (Ra) to achieve {desired_current}A is: {shunt_resistor: } ohms")
+    except ValueError as e:
+        print(f"Invalid input. {e}")
+
+
 def main():
     print("Please select an option:")
     print("1. Calculate field weakening flux")
     print("2. Calculate charge percentage")
+    print("3. Calculate max battery voltage")
+    print("4. Calculate shunt resistor for desired current")    
 
     choice = input("Enter your choice: ")
 
@@ -33,6 +64,12 @@ def main():
             print(f"Charge percentage for a {battery_voltage}-volt battery: {charge_percent:.2f}%")
         except ValueError:
             print("Invalid input. Please enter valid numeric values.")
+    elif choice == "3":
+        calculate_max_battery_voltage()
+    elif choice == "4":
+        calculate_shunt_resistor(float(input("Enter the maximum current (I) in amperes: ")),
+                                 float(input("Enter the desired maximum current (Ia) in amperes: ")))
+
     else:
         print("Invalid choice. Please enter a valid option.")
 
