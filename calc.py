@@ -31,10 +31,11 @@ def calculate_shunt_resistor(current_max, desired_current):
         if R1 <= 0:
             raise ValueError("Shunt resistor value must be greater than zero.")
         
-        shunt_resistor = R1 / (current_max * desired_current)
-        print(f"The shunt resistor value (Ra) to achieve {desired_current}A is: {shunt_resistor: } ohms")
+        shunt_resistor = (R1 / current_max) * desired_current
+        print(f"The shunt resistor value (Ra) to achieve {desired_current}A is: {shunt_resistor:} ohms")
     except ValueError as e:
         print(f"Invalid input. {e}")
+
 
 
 def main():
