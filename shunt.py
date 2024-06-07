@@ -13,10 +13,10 @@ def main():
     new_current_limit = float(input("Enter the new desired current limit in amperes: "))
 
     new_shunt = calculate_new_shunt_value(existing_shunt, existing_current_limit, new_current_limit)
-    print(f"New shunt value for replacement: {new_shunt:.9f} ohms")
+    print(f"New shunt value for replacement: {new_shunt:.10g} ohms")
 
     parallel_shunt = calculate_parallel_shunt_value(existing_shunt, existing_current_limit, new_current_limit)
-    print(f"Additional shunt value for parallel addition: {parallel_shunt:.9f} ohms")
+    print(f"Additional shunt value for parallel addition: {parallel_shunt:.10g} ohms")
 
 if __name__ == "__main__":
     main()
